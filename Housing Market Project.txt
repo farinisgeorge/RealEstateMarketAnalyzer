@@ -1,0 +1,16 @@
+Housing Market Project
+
+
+--- ETL LAYER --- 
+- Build a scraper object
+- Build a data cleaning object
+- Build a data quality assurance object
+- Proccess the data with spark
+- Load the data into a database or data lake
+- Orchistate all these with airflow
+
+
+--- Service Layer ---
+- Build an API with Python or Typescript that reads the data from the curated area and 
+  sends them as a response
+- Build a front end Dashboard
