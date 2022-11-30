@@ -1,6 +1,6 @@
-FROM python:3.10
+FROM python:3.9
 
-# WORKDIR /api/zillowDataCollector/baseCollector
+WORKDIR /app
 
 RUN pip install --upgrade pip
 COPY requirements.txt requirements.txt
