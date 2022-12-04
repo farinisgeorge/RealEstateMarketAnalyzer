@@ -14,3 +14,12 @@ Housing Market Project
 - Build an API with Python or Typescript that reads the data from the curated area and 
   sends them as a response
 - Build a front end Dashboard
+
+
+
+--- Next Few Steps ---
+- Finish scraper
+- Finish Data Cleaning Object
+- Finish Validator with Great Expectation
+- Deploy Airflow with Docker Compose
+- Schedule a data collecting pipeline using an Airflow DAG and Datbricks
