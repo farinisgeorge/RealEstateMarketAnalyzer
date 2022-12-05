@@ -5,19 +5,18 @@ import requests
 from bs4 import BeautifulSoup
 from requests_html import HTML
 from requests_html import HTMLSession
+from time import sleep
+import random
+import re
+import math
+
+zipcodes = [ '8002', '8000']
+usage_type = 'buy' ## buy or rent
 
 
+base_page_url = f"""https://www.homegate.ch/{usage_type}/real-estate/matching-list?loc={'%2C'.join([f"geo-zipcode-{zipc}" for zipc in zipcodes])}"""
 
-base_page_url = "https://www.homegate.ch/buy/real-estate/zip-8005/matching-list?loc=geo-zipcode-8002%2Cgeo-zipcode-8000&ep=3"
-
-
-# req_headers = { 
-#    'authority' : 'www.homegate.ch' ,
-#    'accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' ,
-#    'accept-language' : 'en-US,en;q=0.9,el;q=0.8' ,
-#    'upgrade-insecure-requests': '1',
-#    'user-agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36' 
-#    }
+print(base_page_url)
 
 req_headers = {  
     'authority' : 'www.homegate.ch',
@@ -37,23 +36,49 @@ req_headers = {
 }
 
 session = HTMLSession()
-r = session.get(base_page_url)
-  
-
+r = session.get(base_page_url+"&ep=1")
 soup = BeautifulSoup(r.html.raw_html, "html.parser")
 
-# print(soup)
+
+df = pd.DataFrame()
+
+results_found =  re.sub("[^0-9]", "", soup.find_all('span', attrs={"class": lambda e: e.startswith('ResultsNumber_results') if e else False })[0].get_text())
+no_pages = math.ceil(float(results_found)/float(20))
 
 
-df_all = pd.DataFrame()
-properties =  soup.find_all('div', attrs={"class": lambda e: e.startswith('ResultList_ListItem') if e else False })
+for page in range(no_pages):
+    
+    
+    router_page_url = base_page_url + f"&ep={page+1}"
+    print(router_page_url)
+    r = session.get(router_page_url)
+    soup = BeautifulSoup(r.html.raw_html, "html.parser")
+    
+    properties =  soup.find_all(attrs={"class": lambda e: e.startswith('ResultList_ListItem') if e else False })
+    print(len(properties))
+    for property_ in properties:
+        
+        price =  " ".join([p.get_text().strip() for p in property_.find_all('span', attrs={"class": lambda e: e.startswith('ListItemPrice') if e else False })])
+        price_formatted = re.sub("[^\d\.]", "", price)
+        
+        space =  " ".join([p.get_text().strip() for p in property_.find_all('span', attrs={"class": lambda e: e.startswith('ListItemLivingSpace') if e else False })])
+        space_formatted = re.sub("[^\d\.]", "", space)
+        rooms =  " ".join([p.get_text().strip() for p in property_.find_all('span', attrs={"class": lambda e: e.startswith('ListItemRoomNumber') if e else False })])
+        rooms_formatted = re.sub("[^\d\.]", "", rooms)
+        item_links = property_.find_all(attrs={"class": lambda e: e.startswith('ListItem_itemLink') if e else False }, href=True)
+        if item_links: 
+            url = f"https://www.homegate.ch{item_links[0]['href']}"
+        elif property_['href']:
+            url = f"https://www.homegate.ch{property_['href']}"
+        else:
+            url= ""
+        
+        description =  " ".join([p.get_text().strip() for p in property_.find_all('div', attrs={"class": lambda e: e.startswith('ListItemDescription') if e else False })])
 
-for property_ in properties:
-    
-    price =  " ".join([p.get_text().strip() for p in property_.find_all('span', attrs={"class": lambda e: e.startswith('ListItemPrice') if e else False })])
-    space =  " ".join([p.get_text().strip() for p in property_.find_all('span', attrs={"class": lambda e: e.startswith('ListItemLivingSpace') if e else False })])
-    rooms =  " ".join([p.get_text().strip() for p in property_.find_all('span', attrs={"class": lambda e: e.startswith('ListItemRoomNumber') if e else False })])
-    
-    print(f"Rooms: {rooms}, Space: {space}, Price: {price}")
-    
+        
+        new_row = pd.DataFrame({'Price': price, 'Price_Form': price_formatted, 'Space':space, 'Space_Form': space_formatted, 'Rooms':rooms, 'Rooms_Form': rooms_formatted, 'Url':url, 'Description': description}, index=[0])
+        df = pd.concat([new_row,df.loc[:]]).reset_index(drop=True)
+    sleep(random.uniform(3.3,10.87))
+    print("sleeping...")
+print(df)
     
