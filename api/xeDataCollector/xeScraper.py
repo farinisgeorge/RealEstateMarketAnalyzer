@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
+
 postal_code_url = "https://www.xe.gr/services/places/autocomplete?query=15124&user_action=insertText&user_device=Desktop"
 base_page_url = "https://www.xe.gr/property/results?transaction_name=buy&item_type=re_residence&sorting=price_per_unit_area_asc"
 
