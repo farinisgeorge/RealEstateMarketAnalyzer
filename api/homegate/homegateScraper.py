@@ -1,9 +1,5 @@
-import json
-import urllib.parse
 import pandas as pd
-import requests
 from bs4 import BeautifulSoup
-from requests_html import HTML
 from requests_html import HTMLSession
 from time import sleep
 import random
