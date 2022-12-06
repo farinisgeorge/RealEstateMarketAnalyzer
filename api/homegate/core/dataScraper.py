@@ -1,3 +1,5 @@
+from homegate.core.dataFormatter import DataFormatter
+
 from dataclasses import dataclass, field
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -21,9 +23,10 @@ class DataScraper:
         print(self.base_page_url)
         self.session = HTMLSession()
         self.df = pd.DataFrame()
+        self.dataformatter = DataFormatter()
     
     
-    def create_soup(self, url):  
+    def create_soup(self, url):
         r = self.session.get(url)
         soup = BeautifulSoup(r.html.raw_html, "html.parser")
         return soup
@@ -38,13 +41,11 @@ class DataScraper:
         for property_ in properties:
         
             price =  " ".join([p.get_text().strip() for p in property_.find_all('span', attrs={"class": lambda e: e.startswith('ListItemPrice') if e else False })])
-            price_formatted = re.sub("[^\d\.]", "", price)
-            
             space =  " ".join([p.get_text().strip() for p in property_.find_all('span', attrs={"class": lambda e: e.startswith('ListItemLivingSpace') if e else False })])
-            space_formatted = re.sub("[^\d\.]", "", space)
             rooms =  " ".join([p.get_text().strip() for p in property_.find_all('span', attrs={"class": lambda e: e.startswith('ListItemRoomNumber') if e else False })])
-            rooms_formatted = re.sub("[^\d\.]", "", rooms)
             item_links = property_.find_all(attrs={"class": lambda e: e.startswith('ListItem_itemLink') if e else False }, href=True)
+            description =  " ".join([p.get_text().strip() for p in property_.find_all('div', attrs={"class": lambda e: e.startswith('ListItemDescription') if e else False })])
+
             if item_links: 
                 url = f"https://www.homegate.ch{item_links[0]['href']}"
             elif property_['href']:
@@ -52,10 +53,17 @@ class DataScraper:
             else:
                 url= ""
             
-            description =  " ".join([p.get_text().strip() for p in property_.find_all('div', attrs={"class": lambda e: e.startswith('ListItemDescription') if e else False })])
-
+            new_row_dict = {
+                'Price': price,
+                'Space':space, 
+                'Rooms':rooms, 
+                'Url':url, 
+                'Description': description
+            }
             
-            new_row = pd.DataFrame({'Price': price, 'Price_Form': price_formatted, 'Space':space, 'Space_Form': space_formatted, 'Rooms':rooms, 'Rooms_Form': rooms_formatted, 'Url':url, 'Description': description}, index=[0])
+            new_row_dict.update(self.dataformatter.format_data(new_row_dict))
+            
+            new_row = pd.DataFrame(new_row_dict, index=[0])
             self.df = pd.concat([new_row,self.df.loc[:]]).reset_index(drop=True)
         
     
