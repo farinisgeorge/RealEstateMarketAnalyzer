@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import datetime
 import re
 
 
@@ -24,8 +25,10 @@ class DataFormatter():
         data_formatted["space_form"] = float(ext_char(dict_data["space"], changewords)) if ext_char(dict_data["space"], changewords) != '' else 0
         changewords = ['rm', " ", "[^\d\.]"]
         data_formatted["rooms_form"] = float(ext_char(dict_data["rooms"], changewords)) if ext_char(dict_data["rooms"], changewords) != '' else 0
+        data_formatted["scrapetimeUTC"] = datetime.utcnow()
         
         return data_formatted
     
     def derive_new_fields(self, df):
-        """Method that derives new fields"""
+        """Method that derives new fields like price per square meter and zestimage for houses"""
+        df['euro/sqm'] = df['price_form']/df['space_form']

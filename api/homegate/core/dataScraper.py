@@ -16,7 +16,7 @@ class DataScraper:
     """
     Main Scraper class for homegate website
     """
-    zipcodes: list  = field(default_factory=lambda: ['8002', '8005'], metadata={'choices': ['8002', '8000']})
+    zipcodes: list  = field(default_factory=lambda: [ '8002', '8005'], metadata={'choices': ['8002', '8000']})
     usage_type: str = field(default='buy', metadata={'choices': ['buy', 'rent']})
     
     
@@ -50,12 +50,17 @@ class DataScraper:
 
             if item_links: 
                 url = f"https://www.homegate.ch{item_links[0]['href']}"
+                property_id = re.sub("[^0-9]", "", item_links[0]['href'])
             elif property_['href']:
                 url = f"https://www.homegate.ch{property_['href']}"
+                property_id = re.sub("[^0-9]", "", property_['href'])
             else:
                 url= ""
             
             new_row_dict = {
+                'property_id': property_id,
+                'zipcodes': ",".join(self.zipcodes),
+                'usage_type': self.usage_type,
                 'price': price,
                 'space':space, 
                 'rooms':rooms, 
@@ -95,5 +100,6 @@ class DataScraper:
         initial_soup = self.create_soup(self.base_page_url+"&ep=1")
         self.get_no_pages(initial_soup)
         self.get_pages_data()
-        return self.df
+        self.dataformatter.derive_new_fields(self.df)
+        return self.df.sort_values(by=['euro/sqm'], ignore_index=True)
         

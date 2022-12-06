@@ -5,6 +5,9 @@ class DataValidator(BaseModel):
     """
     Pydantic model to validate the schema of the extracted files.
     """
+    property_id: str
+    zipcodes: str
+    usage_type: str
     price: str
     space: str
     rooms: str
