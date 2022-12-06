@@ -19,11 +19,11 @@ class DataFormatter():
         ext_char = lambda x, changewords: re.sub(rf"({'|'.join(changewords)})", "", x)
         
         changewords = ['CHF', " ", "-", "[^\d\.]"]
-        data_formatted["Price_Form"] = float(ext_char(dict_data["Price"], changewords)) if ext_char(dict_data["Price"], changewords) != '' else 0
+        data_formatted["price_form"] = float(ext_char(dict_data["price"], changewords)) if ext_char(dict_data["price"], changewords) != '' else 0
         changewords = ['m2', " ", "[^\d\.]"]
-        data_formatted["Space_Form"] = float(ext_char(dict_data["Space"], changewords)) if ext_char(dict_data["Space"], changewords) != '' else 0
+        data_formatted["space_form"] = float(ext_char(dict_data["space"], changewords)) if ext_char(dict_data["space"], changewords) != '' else 0
         changewords = ['rm', " ", "[^\d\.]"]
-        data_formatted["Rooms_Form"] = float(ext_char(dict_data["Rooms"], changewords)) if ext_char(dict_data["Rooms"], changewords) != '' else 0
+        data_formatted["rooms_form"] = float(ext_char(dict_data["rooms"], changewords)) if ext_char(dict_data["rooms"], changewords) != '' else 0
         
         return data_formatted
     

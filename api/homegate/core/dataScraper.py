@@ -1,9 +1,11 @@
 from homegate.core.dataFormatter import DataFormatter
+from homegate.core.dataValidator import DataValidator
 
 from dataclasses import dataclass, field
 import pandas as pd
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
+from pydantic import ValidationError
 from time import sleep
 import random
 import re
@@ -54,17 +56,25 @@ class DataScraper:
                 url= ""
             
             new_row_dict = {
-                'Price': price,
-                'Space':space, 
-                'Rooms':rooms, 
-                'Url':url, 
-                'Description': description
+                'price': price,
+                'space':space, 
+                'rooms':rooms, 
+                'url':url, 
+                'description': description
             }
             
             new_row_dict.update(self.dataformatter.format_data(new_row_dict))
             
-            new_row = pd.DataFrame(new_row_dict, index=[0])
-            self.df = pd.concat([new_row,self.df.loc[:]]).reset_index(drop=True)
+            try:
+                row_val = DataValidator(**new_row_dict)
+                new_row = pd.DataFrame(new_row_dict, index=[0])
+                self.df = pd.concat([new_row,self.df.loc[:]]).reset_index(drop=True)
+            except ValidationError as e:
+                print(e)
+            finally:
+                pass
+            
+            
         
     
     def get_pages_data(self):
