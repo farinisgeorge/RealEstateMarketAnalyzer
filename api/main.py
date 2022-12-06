@@ -1,7 +1,6 @@
-from homegate.core.dataScraper import DataScraper
+from homegate.HGManager import HGManager
 
 
 if __name__ == "__main__":
-    scraper = DataScraper(['8002', '8000'], 'buy')
-    df = scraper.scrape_website()
-    print(df)
+    hgmanager = HGManager()
+    df = hgmanager.scrape_website()
