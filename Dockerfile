@@ -1,14 +1,4 @@
-# FROM python:3.9
 
-# WORKDIR /app
-
-# RUN pip install --upgrade pip
-# COPY requirements.txt requirements.txt
-# RUN pip install -r requirements.txt
-
-# COPY . .
-
-# CMD [ "python3", "api/zillowDataCollector/baseCollector.py"]
 
 FROM --platform=linux/amd64 apache/airflow:2.4.2
 USER root
@@ -46,7 +36,7 @@ RUN apt-get install -y gosu\
 USER airflow
 # These are the dependencies for the code. It can also be done using a requirements.txt file
 # or a Piplock file
-# RUN pip install --no-cache-dir pydantic
+RUN pip install --no-cache-dir pydantic
 RUN pip install --no-cache-dir python-dotenv
 RUN pip install --no-cache-dir pyodbc
 RUN pip install --no-cache-dir sqlalchemy

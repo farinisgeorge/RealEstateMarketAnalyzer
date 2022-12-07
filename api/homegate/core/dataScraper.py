@@ -17,8 +17,8 @@ class DataScraper:
     """
     Main Scraper class for homegate website
     """
-    zipcodes: list  = field(default_factory=lambda: [ '8002', '8005'], metadata={'choices': ['8002', '8000']})
-    usage_type: str = field(default='buy', metadata={'choices': ['buy', 'rent']})
+    zipcodes: list
+    usage_type: str 
     
     
     def __post_init__(self):
