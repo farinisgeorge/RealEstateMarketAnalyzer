@@ -45,4 +45,5 @@ RUN pip3 install --no-cache-dir sqlalchemy
 
 
 RUN mkdir /opt/airflow/dags/files
-COPY api /opt/airflow/dags/files
+# COPY api /opt/airflow/dags/files
+COPY --chown=airflow:airflow api ${AIRFLOW_HOME}/dags
