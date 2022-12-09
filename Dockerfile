@@ -36,7 +36,13 @@ RUN apt-get install -y gosu\
 USER airflow
 # These are the dependencies for the code. It can also be done using a requirements.txt file
 # or a Piplock file
-RUN pip install --no-cache-dir pydantic
-RUN pip install --no-cache-dir python-dotenv
-RUN pip install --no-cache-dir pyodbc
-RUN pip install --no-cache-dir sqlalchemy
+RUN pip3 install --no-cache-dir beautifulsoup4
+RUN pip3 install --no-cache-dir requests-html
+RUN pip3 install --no-cache-dir pydantic
+RUN pip3 install --no-cache-dir python-dotenv
+RUN pip3 install --no-cache-dir pyodbc
+RUN pip3 install --no-cache-dir sqlalchemy
+
+
+RUN mkdir /opt/airflow/dags/files
+COPY api /opt/airflow/dags/files

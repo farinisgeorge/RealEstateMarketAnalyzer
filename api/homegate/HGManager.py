@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from homegate.core.dataScraper import DataScraper
+from api.homegate.core.dataScraper import DataScraper
 
 @dataclass
 class HGManager:

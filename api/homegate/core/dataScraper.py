@@ -1,5 +1,5 @@
-from homegate.core.dataFormatter import DataFormatter
-from homegate.core.dataValidator import DataValidator
+from api.homegate.core.dataFormatter import DataFormatter
+from api.homegate.core.dataValidator import DataValidator
 
 from dataclasses import dataclass, field
 import pandas as pd

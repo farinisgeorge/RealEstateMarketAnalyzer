@@ -1,4 +1,4 @@
-from files.main import main_func
+from api.main import main_func
 
 from airflow.operators.python_operator import PythonOperator
 from airflow import DAG
@@ -25,11 +25,13 @@ default_args={
         # 'on_retry_callback': another_function,
         # 'sla_miss_callback': yet_another_function,
         # 'trigger_rule': 'all_success'
-    },
+    }
 
-with DAG( "ScrapeHGDag", default_args = default_args,
+
+with DAG( "ScrapeHGDag", 
+    default_args=default_args,
     description="A simple DAG that scrapes Homegate Website for specific zip codes", 
-    schedule=timedelta(days=1), 
+    schedule='*/30 * * * *', 
     start_date=datetime(2021, 1, 1),
     catchup=False,
     tags=["HomeGate", "RealEstateMarketAnalyzer"],

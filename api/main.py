@@ -1,4 +1,4 @@
-from homegate.HGManager import HGManager
+from api.homegate.HGManager import HGManager
 import logging
 
 
