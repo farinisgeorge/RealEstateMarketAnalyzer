@@ -90,6 +90,7 @@ services:
       retries: 5
     restart: always
 
+
   redis:
     image: redis:latest
     expose:
