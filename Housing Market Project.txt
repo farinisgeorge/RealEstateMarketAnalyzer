@@ -23,3 +23,26 @@ Housing Market Project
 - Finish Validator with Great Expectation
 - Deploy Airflow with Docker Compose
 - Schedule a data collecting pipeline using an Airflow DAG and Datbricks
+
+
+----- AKS Service Principal ----
+{
+  "appId": "21695aeb-e8fa-452f-9881-4da80c7ef71c",
+  "displayName": "service-principal-aks",
+  "password": "DJR8Q~mvaGTCfDsZ8aGkn_HmMGqOJTfG2XxWDa2P",
+  "tenant": "315d494c-4a08-4936-8e20-0169608bde66"
+}
+
+
+--- Resource Group ---
+{
+  "id": "/subscriptions/d2d0606a-2013-4332-8846-b2f1b4847201/resourceGroups/airflow-aks-rg",
+  "location": "westeurope",
+  "managedBy": null,
+  "name": "airflow-aks-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
