@@ -5,7 +5,7 @@ variable "project_resourcegroup" {
 
 variable "project_region" {
     type = string
-    default = "East Us"
+    default = "westeurope"
 }
 
 variable "project_container_name" {
@@ -28,10 +28,6 @@ variable "access_data_dirname" {
     default = "access"
 }
 
-variable "synapse_server_name" {
-    type = string
-    default = "etlsynapse9000"
-}
 
 variable "sql_pool_name" {
     type = string
@@ -51,10 +47,12 @@ variable "postgresql_database_name" {
 
 variable "sql_user" {
     type = string
+    default = "airflowadmin"
     description = "This is the Azure Synapse and postgresql server user"
 }
 
 variable "sql_pass" {
     type = string
+    default = "airflowadmin"
     description = "This is the Azure Synapse and postgresql server password"
 }

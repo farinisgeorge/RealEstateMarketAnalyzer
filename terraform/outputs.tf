@@ -27,9 +27,6 @@ output "postgres_servername" {
   value = azurerm_postgresql_flexible_server.postgres_server.fqdn
 }
 
-output "synapse_servername" {
-  value = var.synapse_server_name
-}
 
 output "sql_databasename" {
   value = var.postgresql_database_name
@@ -45,8 +42,4 @@ output "sql_username" {
 
 output "sql_password" {
   value = var.sql_pass
-}
-
-output "synapse_conn_endpoints" {
-  value = azurerm_synapse_workspace.etlsynapse.connectivity_endpoints
 }

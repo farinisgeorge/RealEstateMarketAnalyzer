@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "project_storage" {
-    name = "sunglasseshubetl"
+    name = "realestatemarketetl"
     resource_group_name = azurerm_resource_group.azure_rg.name
     location = var.project_region
     account_tier = "Standard"

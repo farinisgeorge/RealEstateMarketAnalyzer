@@ -31,4 +31,4 @@ class DataFormatter():
     
     def derive_new_fields(self, df):
         """Method that derives new fields like price per square meter and zestimage for houses"""
-        df['euro/sqm'] = df['price_form']/df['space_form']
+        df['europersqm'] = df['price_form']/df['space_form']

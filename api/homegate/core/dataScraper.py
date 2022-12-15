@@ -104,8 +104,11 @@ class DataScraper:
         initial_soup = self.create_soup(self.base_page_url+"&ep=1")
         self.get_no_pages(initial_soup)
         self.get_pages_data()
+        return self.df
         
+    
+    def format_scraped_data(self):
         self.logger.info("Producing new data fields.")
         self.dataformatter.derive_new_fields(self.df)
-        return self.df.sort_values(by=['euro/sqm'], ignore_index=True)
+        return self.df.sort_values(by=['europersqm'], ignore_index=True)
         

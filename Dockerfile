@@ -42,6 +42,9 @@ RUN pip3 install --no-cache-dir pydantic
 RUN pip3 install --no-cache-dir python-dotenv
 RUN pip3 install --no-cache-dir pyodbc
 RUN pip3 install --no-cache-dir sqlalchemy
+RUN pip3 install --no-cache-dir python-dotenv
+RUN pip3 install --no-cache-dir psycopg2
+
 
 
 RUN mkdir /opt/airflow/dags/files
