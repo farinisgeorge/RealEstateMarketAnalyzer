@@ -68,7 +68,7 @@ class PostgresManager:
                     space_form NUMERIC(6,2), \
                     rooms_form NUMERIC(6,2), \
                     europersqm NUMERIC(6,2), \
-                    scrapetimeUTC DATE \
+                    scrapetimeUTC DATE, \
                     key SERIAL PRIMARY KEY, \
                     );
                     '''

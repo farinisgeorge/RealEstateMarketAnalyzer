@@ -42,7 +42,7 @@ with DAG( "ScrapeHGDag",
     python_task = PythonOperator(
         task_id="SrapeHG",
         python_callable=main_func,
-        op_kwargs={'zipcodes': [ '8002', '8005'], 'usage_type': 'buy'},
+        op_kwargs={'zipcodes': [ '8002', '8005', '8000'], 'usage_type': 'rent'},
     )
 
 python_task
