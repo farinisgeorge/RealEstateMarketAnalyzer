@@ -54,7 +54,7 @@ class PostgresManager:
     def create_table(self):
 
         try:
-            cursor = self.create_tableconn.cursor()
+            cursor = self.conn.cursor()
             sql = f'''CREATE TABLE IF NOT EXISTS {self.table_name} ( \
                     property_id VARCHAR(255), \
                     zipcodes VARCHAR(255), \
@@ -91,6 +91,63 @@ class PostgresManager:
         df.to_sql(f"{self.table_name}",con=self.engine,if_exists="append",index=False)
 
         self.logger.info(f"Data copied to {self.table_name}........")
+        
+    
+    def run_query_to_postgres(self, property_id, usage_type, space_min, space_max, rooms,\
+        europersqm_min, europersqm_max, price_min, price_max):
+        
+        try:
+            
+            cursor = self.conn.cursor()
+            
+            sql_list= ["SELECT * FROM homegate_data WHERE "]
+            
+            if property_id:
+                sql_list.append(f"property_id = {property_id}")
+                
+            if usage_type:
+                sql_list.append(f"usage_type = {usage_type}")
+                
+            if space_min:
+                sql_list.append(f"space_form >= {space_min}")
+                
+            if space_max:
+                sql_list.append(f"space_form <= {space_max}")
+                
+            if rooms:
+                sql_list.append(f"rooms_form = {rooms}")
+            
+            if europersqm_min:
+                sql_list.append(f"europersqm >= {europersqm_min}")
+                
+            if europersqm_max:
+                sql_list.append(f"europersqm <= {europersqm_max}")
+                
+            if price_min:
+                sql_list.append(f"price_form >= {price_min}")
+                
+            if price_max:
+                sql_list.append(f"price_form <= {price_max}")
+            
+            str1 = "".join(sql_list[:2])
+            str2 = " & ".join(sql_list[2:])
+            query = str1 + " & " + str2
+            
+            cursor.execute(query)
+            results = cursor.fetchall()
+            return results
+        
+        except Exception as e:
+            self.logger.info("""
+            --------------------------------------------------------
+            |An error ocurred. Check the logs for more information.|
+            --------------------------------------------------------
+            """)
+            
+        finally:
+            self.conn.close()
+        
+        
     
         
     def update_postgres_data(self, df):

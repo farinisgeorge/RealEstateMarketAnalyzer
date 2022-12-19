@@ -34,4 +34,4 @@ def main_func(zipcodes, usage_type):
     logger.info("Running HomeGate Data Collector.")
     hgmanager = HGManager(zipcodes, usage_type)
     df = hgmanager.scrape_website()
-    print(df)
+    return df
