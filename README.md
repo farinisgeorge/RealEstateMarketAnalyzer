@@ -59,3 +59,11 @@ The API makes use of the following two urls
 - Finally you can access the airflow UI on [localhost](http://localhost:8080/)
 - Copy the DAG under `opt/airflow/dags` directory into airflow.
 - Finally trigger the DAG or wait untill the next scheduled execution.
+
+# Final PowerBI report
+The figures extracted from PowerBI can help the user understand the Zurich housing market through the data that has been extracted from homegate.ch
+
+![PowerBIFigure01](images/Homegate_Analysis01.png)
+
+
+![PowerBIFigure01](images/Homegate_Analysis02.png)
