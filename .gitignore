@@ -4,6 +4,7 @@ credentials
 parameters
 __pycache__
 testing
+.DS_Store
 
 # Airflow / Docker
 .env
